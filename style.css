@@ -1,0 +1,12 @@
+* {
+    margin: 0;
+}
+
+main {
+    background-color: black;
+}
+
+#gameboard {
+    grid-template: repeat(1fr, 3), (1fr, 3);
+
+}
