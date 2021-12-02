@@ -22,6 +22,30 @@ header {
     font-weight: 700;
 }
 
+#playersContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+
+}
+
+#playersContainer div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 180px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    border: none;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: #f3f3f3;
+    color: rgb(83, 83, 83);
+}
+
 #gameboard {
     background-color: white;
     border: none;
@@ -38,17 +62,16 @@ header {
     justify-content: center;
     align-items: center;
     font-size: 4rem;
-    background-color: #eeeeee;
+    background-color: #f5f5f5;
     color: rgb(105, 105, 105);
     border-radius: 15px;
     margin: 5px;
     padding-bottom: 1rem;
-    transition: all 0.1s ease-in-out;
+    transition: all 0.15s ease-in-out;
 }
 
 .space:hover {
     box-shadow: 1px 1px 14px rgba(0, 0, 0, 0.1); 
-    background-color: #d6d6d6;
-    color: #aacce7;
+    background-color: #e7e7e7;
     transform: scale(1.05);
 }

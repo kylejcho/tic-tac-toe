@@ -1,8 +1,6 @@
 const gameboard = (() => {
     let boardArr = [[],[],[],[],[],[],[],[],[]];
     
-    
-
     return {boardArr};
 })();
 
@@ -27,7 +25,6 @@ const gameController = (() => {
 
     const mark = (index) => {
         gameboard.boardArr[index] = currentTurn;
-        console.log(gameboard.boardArr);
         displayController.updateDisplay(gameboard.boardArr)
         switchTurn();
     }
@@ -51,8 +48,9 @@ const markClick = (() => {
     document.addEventListener('click', (e) => {
         if (e.target.classList == 'space' && e.target.innerHTML.length == 0) {
             let index = e.target.id[1];
-            console.log(index);
             gameController.mark(index);
         }
+
     })
 })();
+
