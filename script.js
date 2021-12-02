@@ -27,7 +27,8 @@ const gameController = (() => {
     }
 
     const winScenarios = () => {
-        if (gameboard.boardArr[0] == 'x' && gameboard.boardArr[1] == 'x' && gameboard.boardArr[2] == 'x') {
+        let board = gameboard.boardArr;
+        if (board[0] == 'x' && board[1] == 'x' && board[2] == 'x') {
             setTimeout(function(){ alert("You Win"); }, 10);
         }
     }
