@@ -32,7 +32,7 @@ const gameController = (() => {
         }
     }
 
-    return {mark, winCheck}
+    return {mark, winScenarios}
 })();
 
 const displayController = (() => {
