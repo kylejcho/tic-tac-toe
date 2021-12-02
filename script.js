@@ -16,11 +16,8 @@ const gameController = (() => {
     let currentTurn = 'x';
     
     const switchTurn = () => {
-        if (currentTurn == 'x') {
-            currentTurn = 'o'
-        } else {
-            currentTurn = 'x'
-        }
+        if (currentTurn == 'x') currentTurn = 'o'
+        else currentTurn = 'x'
     }
 
     const mark = (index) => {
@@ -29,7 +26,13 @@ const gameController = (() => {
         switchTurn();
     }
 
-    return {mark}
+    const winScenarios = () => {
+        if (gameboard.boardArr[0] == 'x' && gameboard.boardArr[1] == 'x' && gameboard.boardArr[2] == 'x') {
+            setTimeout(function(){ alert("You Win"); }, 10);
+        }
+    }
+
+    return {mark, winCheck}
 })();
 
 const displayController = (() => {
@@ -39,7 +42,6 @@ const displayController = (() => {
             space.innerHTML = arr[i];
         }
     }
-
     return {updateDisplay}
 })();
 
@@ -50,7 +52,7 @@ const markClick = (() => {
             let index = e.target.id[1];
             gameController.mark(index);
         }
-
+        gameController.winScenarios();
     })
 })();
 
