@@ -1,27 +1,58 @@
 const gameboard = (() => {
-    let gameboardArr = [[['x'],['x'],['x']],
-                        [['x'],['o'],['x']],
-                        [['x'],['o'],['x']]];
-    return gameboardArr;
+    let boardArr = [[],[],[],[],[],[],[],[],[]];
+    
+    
+
+    return {boardArr};
+})();
+
+const Player = (sign) => {
+    this.sign = sign;
+    return {sign}
+}
+
+const gameController = (() => {
+    const playerX = Player('x');
+    const playerO = Player('o');
+
+    let currentTurn = 'x';
+    
+    const switchTurn = () => {
+        if (currentTurn == 'x') {
+            currentTurn = 'o'
+        } else {
+            currentTurn = 'x'
+        }
+    }
+
+    const mark = (index) => {
+        gameboard.boardArr[index] = currentTurn;
+        console.log(gameboard.boardArr);
+        displayController.updateDisplay(gameboard.boardArr)
+        switchTurn();
+    }
+
+    return {mark}
+})();
+
+const displayController = (() => {
+    const updateDisplay = (arr) => {
+        for (let i = 0; i < arr.length; i++) {
+            let space = document.querySelector('#s' + i);
+            space.innerHTML = arr[i];
+        }
+    }
+
+    return {updateDisplay}
 })();
 
 
-
-const Player = (name) => {
-    let turnsLeft = 3;
-    let marked = [];
-
-    return {turnsLeft, marked}
-}
-
-const gameController = ((gameboardArr) => {
-    const displayBoard = (gameboardArr) => {
-        gameboardArr.forEach(arr => {
-            arr.forEach(item => {
-                
-            })
-        }) 
-    }
-    const choosePlayer = () => {}
-
+const markClick = (() => {
+    document.addEventListener('click', (e) => {
+        if (e.target.classList == 'space' && e.target.innerHTML.length == 0) {
+            let index = e.target.id[1];
+            console.log(index);
+            gameController.mark(index);
+        }
+    })
 })();

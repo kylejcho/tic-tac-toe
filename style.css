@@ -3,10 +3,28 @@
 }
 
 main {
-    background-color: black;
+    background-color: rgb(255, 255, 255);
+    height: 90vh;
+}
+
+header {
+    height: 10vh;
 }
 
 #gameboard {
-    grid-template: repeat(1fr, 3), (1fr, 3);
+    background-color: white;
+    border: none;
+    width: 30vw;
+    height: 30vw;
+    display: grid;
+    grid-template: repeat(3, 1fr)/repeat( 3, 1fr);
+    margin: 0 auto;
+}
 
+.space {
+    display: flex;
+    border: 1px black solid;
+    justify-content: center;
+    align-items: center;
+    font-size: 5rem;
 }
