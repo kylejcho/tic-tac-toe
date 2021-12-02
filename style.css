@@ -13,7 +13,7 @@ main {
 }
 
 header {
-    color: #698194;
+    color: #5a5a5a;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,6 +49,6 @@ header {
 .space:hover {
     box-shadow: 1px 1px 14px rgba(0, 0, 0, 0.1); 
     background-color: #d6d6d6;
-    color: #84b1d6;
+    color: #aacce7;
     transform: scale(1.05);
 }
