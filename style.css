@@ -1,21 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Poppins:wght@100;200;300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+
 * {
+    font-family: Quicksand;
     margin: 0;
+    font-weight: 600;
 }
 
 main {
     background-color: rgb(255, 255, 255);
-    height: 90vh;
+    height: 100vh;
 }
 
 header {
+    color: #698194;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 10vh;
+    font-size: 3.5rem;
+    font-weight: 700;
 }
 
 #gameboard {
     background-color: white;
     border: none;
-    width: 30vw;
-    height: 30vw;
+    width: 35vw;
+    height: 35vw;
     display: grid;
     grid-template: repeat(3, 1fr)/repeat( 3, 1fr);
     margin: 0 auto;
@@ -23,8 +34,21 @@ header {
 
 .space {
     display: flex;
-    border: 1px black solid;
+    border: none;
     justify-content: center;
     align-items: center;
-    font-size: 5rem;
+    font-size: 4rem;
+    background-color: #eeeeee;
+    color: rgb(105, 105, 105);
+    border-radius: 15px;
+    margin: 5px;
+    padding-bottom: 1rem;
+    transition: all 0.1s ease-in-out;
+}
+
+.space:hover {
+    box-shadow: 1px 1px 14px rgba(0, 0, 0, 0.1); 
+    background-color: #d6d6d6;
+    color: #84b1d6;
+    transform: scale(1.05);
 }
