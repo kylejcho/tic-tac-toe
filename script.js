@@ -1,11 +1,8 @@
 const gameboard = (() => {
     let boardArr = [[],[],[],[],[],[],[],[],[]];
 
-    const clearBoardArr = () => {
-        boardArr = [[],[],[],[],[],[],[],[],[]];
-    }
 
-    return {boardArr, clearBoardArr};
+    return {boardArr};
 })();
 
 const Player = (sign) => {
@@ -73,9 +70,14 @@ const gameController = (() => {
         displayController.gameEndPopup();
     }
 
+    const clearBoardArr = () => {
+        gameboard.boardArr = [[],[],[],[],[],[],[],[],[]];
+    }
+
     const restartGame = () => {
-        gameboard.clearBoardArr();
-        displayController.updateDisplay(gameboard.boardArr)
+        clearBoardArr();
+        displayController.updateDisplay(gameboard.boardArr);
+        displayController.restartGameDisplay();
     }
 
     return {mark, winCheck, restartGame}
@@ -94,7 +96,12 @@ const displayController = (() => {
         gameEnd.style.visibility = "visible"
     }
     
-    return {updateDisplay, gameEndPopup}
+    const restartGameDisplay = () => {
+        let gameEnd = document.querySelector('#gameEndContainer');
+        gameEnd.style.visibility = "hidden";
+    }
+
+    return {updateDisplay, gameEndPopup, restartGameDisplay}
 })();
 
 
@@ -113,6 +120,7 @@ const restartClick = (() => {
     const refreshButton = document.querySelector('#gameRefreshButton');
     refreshButton.addEventListener('click', () => {
         gameController.restartGame();
+
     })
 })();
 
