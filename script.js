@@ -131,8 +131,10 @@ const displayController = (() => {
     }
     
     const restartGameDisplay = () => {
+        let tieEnd = document.querySelector('#tieEndContainer');
         let gameEnd = document.querySelector('#gameEndContainer');
         gameEnd.style.visibility = "hidden";
+        tieEnd.style.visibility = "hidden";
     }
 
     return {updateDisplay, gameEndPopup, restartGameDisplay, tie}
@@ -155,7 +157,10 @@ const restartClick = (() => {
     const refreshButton = document.querySelector('#gameRefreshButton');
     refreshButton.addEventListener('click', () => {
         gameController.restartGame();
-
+    })
+    const tieRefreshButton = document.querySelector('#tieRefreshButton');
+    tieRefreshButton.addEventListener('click', () => {
+        gameController.restartGame();
     })
 })();
 
