@@ -47,28 +47,33 @@ const gameController = (() => {
 
     const horizontal = (index, sign, board) => {
         if (board[index+1] == sign && board[index+2] == sign) {
-            win();
+            gameEnd();
         }
     }
     const vertical = (index, sign, board) => {
         if (board[index+3] == sign && board[index+6] == sign) {
-            win();
+            gameEnd();
         }
     }
     const diagonal = (index, sign, board) => {
         if (index == 0 && board[4] == sign && board[8] == sign) {
-            win();
+            gameEnd();
         } 
         else if (index == 2 && board[4] == sign && board[6] == sign) {
-            win();
+            gameEnd();
         }
     }
     
-    const win = () => {
-        setTimeout(function(){ alert("You Win"); }, 10);
+    const gameEnd = () => {
+        displayController.gameEndPopup();
     }
 
-    return {mark, winScenarios}
+    const restartGame = () => {
+        //let gameEnd = document.querySelector('#gameEndContainer');
+        //gameEnd.style.visibility = "hidden";
+    }
+
+    return {mark, winScenarios, restartGame}
 })();
 
 const displayController = (() => {
@@ -78,7 +83,13 @@ const displayController = (() => {
             space.innerHTML = arr[i];
         }
     }
-    return {updateDisplay}
+ 
+    const gameEndPopup = () => {
+        let gameEnd = document.querySelector('#gameEndContainer');
+        gameEnd.style.visibility = "visible"
+    }
+    
+    return {updateDisplay, gameEndPopup}
 })();
 
 
@@ -92,4 +103,11 @@ const markClick = (() => {
     })
 })();
 
-//setTimeout(function(){ alert("You Win"); }, 10);
+/*
+const restartClick = (() => {
+    const refreshButton = document.querySelector('#gameRefreshButton');
+    refreshButton.addEventListener('click', () => {
+        gameController.restartGame();
+    })
+})();
+*/
