@@ -18,7 +18,7 @@ header {
     justify-content: center;
     align-items: center;
     height: 10vh;
-    font-size: 3.5rem;
+    font-size: 4rem;
     font-weight: 700;
 }
 
@@ -29,6 +29,7 @@ header {
     height: 10vh;
     width: 25vw;
     margin: 0 auto;
+    padding-top: 1rem;
 }
 
 #playersContainer div {

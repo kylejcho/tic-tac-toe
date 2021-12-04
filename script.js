@@ -17,8 +17,9 @@ const gameController = (() => {
     const getCurrentTurn = () => currentTurn;
 
     const switchTurn = () => {
-        if (currentTurn == 'x') currentTurn = 'o'
-        else currentTurn = 'x'
+        if (currentTurn == 'x') currentTurn = 'o';
+        else currentTurn = 'x';
+        playerTurn();
     }
 
     const mark = (index) => {
@@ -100,6 +101,8 @@ const gameController = (() => {
         winState = false;
         displayController.updateDisplay(gameboard.boardArr);
         displayController.restartGameDisplay();
+        currentTurn = 'x';
+        playerTurn();
     }
 
     return {mark, winCheck, restartGame, tieCheck, currentTurn, getCurrentTurn}
@@ -146,11 +149,9 @@ const playerTurn = () => {
     playerXDiv = document.querySelector('#playerX');
     playerODiv = document.querySelector('#playerO');
 
-
     if (currentTurn == "x") {
         playerXDiv.classList.add('active');
         playerODiv.classList.remove('active');
-
     } else if (currentTurn == "o"){
         playerXDiv.classList.remove('active');
         playerODiv.classList.toggle('active');
@@ -167,8 +168,6 @@ const markClick = (() => {
         }
         gameController.winCheck();
         gameController.tieCheck();
-
-        playerTurn();
     })
 })();
 
