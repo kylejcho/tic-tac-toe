@@ -85,8 +85,8 @@ header {
     top: 0;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(0, 0, 0, 0.548);
-    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.205);
+    backdrop-filter: blur(3px);
 }
 
 #gameEnd {
@@ -96,9 +96,25 @@ header {
     width: 400px;
     height: 500px;
     border-radius: 10px;
-
 }
 
 #gameEnd p {
+    color: white;
+    font-size: 3rem;
+}
 
+#gameRefreshButton {
+    color: white;
+    margin-top: 50px;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    border: none;
+    height: 40px;
+    background-color: #76a6ff;
+    transition: all 0.2s ease-in-out;
+}
+
+#gameRefreshButton:hover {
+    transform: scale(1.05);
+    background-color: #94baff;
 }
