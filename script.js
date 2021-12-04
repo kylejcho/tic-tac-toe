@@ -12,11 +12,10 @@ const Player = (sign) => {
 const gameController = (() => {
     winState = false;
 
-    const playerX = Player('x');
-    const playerO = Player('o');
-
     let currentTurn = 'x';
-    
+
+    const getCurrentTurn = () => currentTurn;
+
     const switchTurn = () => {
         if (currentTurn == 'x') currentTurn = 'o'
         else currentTurn = 'x'
@@ -103,7 +102,7 @@ const gameController = (() => {
         displayController.restartGameDisplay();
     }
 
-    return {mark, winCheck, restartGame, tieCheck}
+    return {mark, winCheck, restartGame, tieCheck, currentTurn, getCurrentTurn}
 })();
 
 const displayController = (() => {
@@ -113,6 +112,7 @@ const displayController = (() => {
             space.innerHTML = arr[i];
         }
     }
+
  
     const tie = () => {
         let tieEnd = document.querySelector('#tieEndContainer');
@@ -125,7 +125,7 @@ const displayController = (() => {
         const gameEndTitle = document.querySelector('#gameEndTitle');
 
         setTimeout(function(){ 
-            gameEndTitle.innerHTML = "Player " + winner.toUpperCase() + " WINS";
+            gameEndTitle.innerHTML = "PLAYER " + winner.toUpperCase() + " WINS";
             gameEnd.style.visibility = "visible"
         }, 300);
     }
@@ -141,6 +141,24 @@ const displayController = (() => {
 })();
 
 
+const playerTurn = () => {
+    let currentTurn = gameController.getCurrentTurn();
+    playerXDiv = document.querySelector('#playerX');
+    playerODiv = document.querySelector('#playerO');
+
+
+    if (currentTurn == "x") {
+        playerXDiv.classList.add('active');
+        playerODiv.classList.remove('active');
+
+    } else if (currentTurn == "o"){
+        playerXDiv.classList.remove('active');
+        playerODiv.classList.toggle('active');
+    }
+};
+
+playerTurn();
+
 const markClick = (() => {
     document.addEventListener('click', (e) => {
         if (e.target.classList == 'space' && e.target.innerHTML.length == 0) {
@@ -150,6 +168,7 @@ const markClick = (() => {
         gameController.winCheck();
         gameController.tieCheck();
 
+        playerTurn();
     })
 })();
 
@@ -163,4 +182,5 @@ const restartClick = (() => {
         gameController.restartGame();
     })
 })();
+
 
