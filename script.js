@@ -30,30 +30,44 @@ const gameController = (() => {
         switchTurn();
     }
     
-    const winCheck = () => {
+    const winScenarios = () => {
         let board = gameboard.boardArr;
-        for (let i = 0; i < board.length; i ++) {
-            winScenarios(i, board[i], board);
+        
+        if (board[0].length > 0) {
+            diagonal(0, board[0], board);
+            horizontal(0, board[0], board);
+            vertical(0, board[0], board)      
+        } 
+        for (let i = 1; i < 3; i++) {
+            if (board[i].length > 0) {
+                vertical(i, board[i], board)
+            }
+        }
+        for (let i = 3; i <= 6; i += 3) {
+            if (board[i].length > 0) {
+                horizontal(i, board[i], board)
+            } 
         }
     }
 
-    const winScenarios = (index, sign, board) => {
-        //horizontal
-            if (board[index+1] == sign && board[index+2] == sign) {
-                gameEnd();
-            }
-        //vertical
-            if (board[index+3] == sign && board[index+6] == sign) {
-                gameEnd();
-            }
-        //diagonal
-            if (index == 0 && board[4] == sign && board[8] == sign) {
-                gameEnd();
-            } else if (index == 2 && board[4] == sign && board[6] == sign) {
-                gameEnd();
-            }
+    const horizontal = (index, sign, board) => {
+        if (board[index+1] == sign && board[index+2] == sign) {
+            gameEnd();
+        }
     }
-
+    const vertical = (index, sign, board) => {
+        if (board[index+3] == sign && board[index+6] == sign) {
+            gameEnd();
+        }
+    }
+    const diagonal = (index, sign, board) => {
+        if (index == 0 && board[4] == sign && board[8] == sign) {
+            gameEnd();
+        } 
+        else if (index == 2 && board[4] == sign && board[6] == sign) {
+            gameEnd();
+        }
+    }
     
     const gameEnd = () => {
         displayController.gameEndPopup();
@@ -64,7 +78,7 @@ const gameController = (() => {
         displayController.updateDisplay(gameboard.boardArr)
     }
 
-    return {mark, winScenarios, winCheck, restartGame}
+    return {mark, winScenarios, restartGame}
 })();
 
 const displayController = (() => {
@@ -90,7 +104,7 @@ const markClick = (() => {
             let index = e.target.id[1];
             gameController.mark(index);
         }
-        gameController.winCheck();
+        gameController.winScenarios();
     })
 })();
 
