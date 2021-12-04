@@ -30,7 +30,7 @@ const gameController = (() => {
         switchTurn();
     }
     
-    const winScenarios = () => {
+    const winCheck = () => {
         let board = gameboard.boardArr;
         
         if (board[0].length > 0) {
@@ -78,7 +78,7 @@ const gameController = (() => {
         displayController.updateDisplay(gameboard.boardArr)
     }
 
-    return {mark, winScenarios, restartGame}
+    return {mark, winCheck, restartGame}
 })();
 
 const displayController = (() => {
@@ -104,7 +104,7 @@ const markClick = (() => {
             let index = e.target.id[1];
             gameController.mark(index);
         }
-        gameController.winScenarios();
+        gameController.winCheck();
     })
 })();
 
