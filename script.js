@@ -1,7 +1,6 @@
 const gameboard = (() => {
     let boardArr = [[],[],[],[],[],[],[],[],[]];
 
-
     return {boardArr};
 })();
 
@@ -11,6 +10,8 @@ const Player = (sign) => {
 }
 
 const gameController = (() => {
+    winState = false;
+
     const playerX = Player('x');
     const playerO = Player('o');
 
@@ -33,8 +34,14 @@ const gameController = (() => {
         if (board[0].length > 0) {
             diagonal(0, board[0], board);
             horizontal(0, board[0], board);
-            vertical(0, board[0], board)      
+            vertical(0, board[0], board);
+ 
         } 
+
+        if (board[2].length > 0) {
+            diagonal(2, board[2], board);
+        } 
+        
         for (let i = 1; i < 3; i++) {
             if (board[i].length > 0) {
                 vertical(i, board[i], board)
@@ -47,28 +54,43 @@ const gameController = (() => {
         }
     }
 
+    const tieCheck = () => {
+        let b = gameboard.boardArr;
+        let gameEnd = document.querySelector('#gameEndContainer');
+        if (b[0].length > 0 && b[1].length > 0 && b[2].length > 0 && b[3].length > 0 && b[4].length > 0 && b[5].length > 0 && b[6].length > 0 && b[7].length > 0 && b[8].length > 0 && winState == false) {
+            displayController.tie();
+        }
+    }
+
+
+
     const horizontal = (index, sign, board) => {
         if (board[index+1] == sign && board[index+2] == sign) {
-            gameEnd();
+            gameEnd(sign);
         }
     }
     const vertical = (index, sign, board) => {
         if (board[index+3] == sign && board[index+6] == sign) {
-            gameEnd();
+            gameEnd(sign);
         }
     }
     const diagonal = (index, sign, board) => {
         if (index == 0 && board[4] == sign && board[8] == sign) {
-            gameEnd();
+            gameEnd(sign);
         } 
         else if (index == 2 && board[4] == sign && board[6] == sign) {
-            gameEnd();
+            gameEnd(sign);
         }
     }
+
     
-    const gameEnd = () => {
-        displayController.gameEndPopup();
+    const gameEnd = (sign) => {
+        let winner = sign;
+        displayController.gameEndPopup(winner);
+        winState = true;
     }
+
+
 
     const clearBoardArr = () => {
         gameboard.boardArr = [[],[],[],[],[],[],[],[],[]];
@@ -76,11 +98,12 @@ const gameController = (() => {
 
     const restartGame = () => {
         clearBoardArr();
+        winState = false;
         displayController.updateDisplay(gameboard.boardArr);
         displayController.restartGameDisplay();
     }
 
-    return {mark, winCheck, restartGame}
+    return {mark, winCheck, restartGame, tieCheck}
 })();
 
 const displayController = (() => {
@@ -91,9 +114,20 @@ const displayController = (() => {
         }
     }
  
-    const gameEndPopup = () => {
+    const tie = () => {
+        let tieEnd = document.querySelector('#tieEndContainer');
+
+        setTimeout(function(){ tieEnd.style.visibility = "visible"; }, 300);
+    }
+
+    const gameEndPopup = (winner) => {
         let gameEnd = document.querySelector('#gameEndContainer');
-        gameEnd.style.visibility = "visible"
+        const gameEndTitle = document.querySelector('#gameEndTitle');
+
+        setTimeout(function(){ 
+            gameEndTitle.innerHTML = "Player " + winner.toUpperCase() + " WINS";
+            gameEnd.style.visibility = "visible"
+        }, 300);
     }
     
     const restartGameDisplay = () => {
@@ -101,7 +135,7 @@ const displayController = (() => {
         gameEnd.style.visibility = "hidden";
     }
 
-    return {updateDisplay, gameEndPopup, restartGameDisplay}
+    return {updateDisplay, gameEndPopup, restartGameDisplay, tie}
 })();
 
 
@@ -112,9 +146,10 @@ const markClick = (() => {
             gameController.mark(index);
         }
         gameController.winCheck();
+        gameController.tieCheck();
+
     })
 })();
-
 
 const restartClick = (() => {
     const refreshButton = document.querySelector('#gameRefreshButton');
