@@ -10,6 +10,10 @@ const Player = (sign) => {
 }
 
 const gameController = (() => {
+    
+    let gameMode = "player";
+
+
     winState = false;
 
     let currentTurn = 'x';
@@ -182,4 +186,16 @@ const restartClick = (() => {
     })
 })();
 
+
+const computer = () => {
+    const bestMove = () => {
+        for (let i = 0; i < 9; i++) {
+            if (gameboard.boardArr[i] == '') {
+                
+            }
+        }
+    }
+
+
+}
 
