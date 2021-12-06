@@ -10,13 +10,14 @@ const Player = (sign) => {
 }
 
 const gameController = (() => {
-    
-    let gameMode = "player";
 
+    let gameMode = "computer";
 
     winState = false;
+    tieState = false;
 
     let currentTurn = 'x';
+    console.log("currentTurn = " +currentTurn)
 
     const getCurrentTurn = () => currentTurn;
 
@@ -30,7 +31,11 @@ const gameController = (() => {
         gameboard.boardArr[index] = currentTurn;
         displayController.updateDisplay(gameboard.boardArr)
         switchTurn();
+        
+        computer.play(currentTurn)
+    
     }
+
     
     const winCheck = () => {
         let board = gameboard.boardArr;
@@ -63,6 +68,7 @@ const gameController = (() => {
         let gameEnd = document.querySelector('#gameEndContainer');
         if (b[0].length > 0 && b[1].length > 0 && b[2].length > 0 && b[3].length > 0 && b[4].length > 0 && b[5].length > 0 && b[6].length > 0 && b[7].length > 0 && b[8].length > 0 && winState == false) {
             displayController.tie();
+            tieState = true;
         }
     }
 
@@ -95,6 +101,14 @@ const gameController = (() => {
     }
 
 
+    const endResult = (sign) => {
+        if (winState == true) {
+            return sign;
+        } else if (tieState == true) {
+            return "tie";
+        } 
+    }
+
 
     const clearBoardArr = () => {
         gameboard.boardArr = [[],[],[],[],[],[],[],[],[]];
@@ -109,7 +123,7 @@ const gameController = (() => {
         playerTurn();
     }
 
-    return {mark, winCheck, restartGame, tieCheck, currentTurn, getCurrentTurn}
+    return {endResult, switchTurn, gameMode, mark, winCheck, restartGame, tieCheck, currentTurn, getCurrentTurn}
 })();
 
 const displayController = (() => {
@@ -187,15 +201,87 @@ const restartClick = (() => {
 })();
 
 
-const computer = () => {
-    const bestMove = () => {
-        for (let i = 0; i < 9; i++) {
-            if (gameboard.boardArr[i] == '') {
-                
-            }
+const computer = (() => {
+    
+    const play = (currentTurn) => {
+        let a = gameboard.boardArr.every(index => index[0] == 'x' || index[0] =='o' )
+        if (a == false && currentTurn == "o") {
+            bestMove(currentTurn);
         }
     }
 
+    const bestMove = (currentTurn) => {
+        let bestScore = -Infinity;
+        let move;
+        for (let i = 0; i < 9; i++) {
+            if (gameboard.boardArr[i] == '') {
+                console.log('Testing scenario: boardArr[' + i + ']');
+                console.log(gameboard.boardArr)
+                gameboard.boardArr[i] = gameController.currentTurn;
+                console.log(gameboard.boardArr)
+                let score = minimax(gameboard.boardArr, 0, false);
+                gameboard.boardArr[i] = '';
 
-}
+                if (score > bestScore) {
+                    bestScore = score;
+                    move = i;
+                }
+            }
+        }
+        gameboard.boardArr[move] = currentTurn;
+        displayController.updateDisplay(gameboard.boardArr)
+        gameController.switchTurn();
+    }
+
+
+    let scores = {
+        "x": 1,
+        'o': -1,
+        'tie': 0
+    }
+
+    function minimax(boardArr, depth, isMaximizing) {
+        let result = gameController.endResult(gameController.currentTurn); 
+        console.log('projected result ' + result);
+        if (result !== undefined) {
+            console.log('score = ' + scores[result])
+            return scores[result];
+        }
+
+        if (isMaximizing) {
+            let bestScore = -Infinity;
+            for (let i = 0; i < 9; i++){
+                if (boardArr[i] == '') {
+                    console.log("testing = arr[" + i + "]")
+                    boardArr[i] = 'o';
+                    let score = minimax(boardArr, depth + 1, false);
+                    boardArr[i] = '';
+                    bestScore = Math.max(score, bestScore);
+                }
+            }
+            return bestScore;
+        } else {
+            let bestScore = Infinity;
+            for (let i = 0; i < 9; i++){
+                if (boardArr[i] == '') {
+                    boardArr[i] = 'x';
+                    let score = minimax(boardArr, depth + 1, true);
+                    boardArr[i] = '';
+                    bestScore = Math.min(score, bestScore);
+                }
+            }
+            return bestScore;
+        }
+
+    }
+
+
+
+
+
+
+
+    return {bestMove, play}
+})();
+
 
