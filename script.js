@@ -1,15 +1,12 @@
 const gameboard = (() => {
     let boardArr = [[],[],[],[],[],[],[],[],[]];
-
     return {boardArr};
 })();
 
 const gameController = (() => {
     winState = false;
     tieState = false;
-
     let gameMode = "computer";
-
     let currentTurn = 'x';
 
     const getCurrentTurn = () => currentTurn;
@@ -24,17 +21,14 @@ const gameController = (() => {
         gameboard.boardArr[index] = currentTurn;
         displayController.updateDisplay(gameboard.boardArr)
         switchTurn();
-        if (gameMode == "computer") {
-            computer.play("o")    
+        if (gameMode == "computer" && currentTurn == "o") {
+            computer.bestMove();  
         }  
     }
 
     const tieCheck = () => {
         let a = gameboard.boardArr.every(i => i.length > 0 && winState == false);
-        if (a) {
-            displayController.tie();
-            tieState = "true"
-        }
+        if (a) displayController.tie();
     }
     
     const winCheck = () => {
@@ -174,10 +168,6 @@ const computer = (() => {
     let tieState = false;
     let testSign = ''
 
-    const play = (currentTurn) => {
-        if (currentTurn == "o") bestMove();
-    }
-
     const bestMove = () => {
         let bestScore = -Infinity;
         let move;
@@ -301,7 +291,5 @@ const computer = (() => {
         }
     }
 
-    return {play}
+    return {bestMove}
 })();
-
-
