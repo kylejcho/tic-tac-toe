@@ -2,7 +2,7 @@ let boardArr = [[],[],[],[],[],[],[],[],[]];
 
 const game = (() => {
     let winState = false;
-    let gameMode = "";
+    let gameMode = "computer";
     let currentTurn = 'x';
 
     const getCurrentTurn = () => currentTurn;
@@ -15,7 +15,7 @@ const game = (() => {
 
     const mark = (index) => {
         boardArr[index] = currentTurn;
-        display.updateDisplay(boardArr);
+        display.update(boardArr);
         switchTurn();
         if (gameMode == "computer" && currentTurn == "o") computer.bestMove();  
     }
@@ -64,23 +64,23 @@ const game = (() => {
 
     const clearBoardArr = () => boardArr = [[],[],[],[],[],[],[],[],[]];
     
-    const restartGame = () => {
+    const restart = () => {
         clearBoardArr();
         winState = false;
-        display.updateDisplay(boardArr);
-        display.restartGameDisplay();
+        display.update(boardArr);
+        display.restart();
         currentTurn = 'x';
         playerTurn();
     }
 
-    return {switchTurn, mark, winCheck, restartGame, tieCheck, getCurrentTurn}
+    return {switchTurn, mark, winCheck, restart, tieCheck, getCurrentTurn}
 })();
 
 
 
 
 const display = (() => {
-    const updateDisplay = (arr) => {
+    const update = (arr) => {
         for (let i = 0; i < arr.length; i++) {
             let space = document.querySelector('#s' + i);
             space.innerHTML = arr[i];
@@ -101,21 +101,21 @@ const display = (() => {
         }, 300);
     }
     
-    const restartGameDisplay = () => {
+    const restart = () => {
         let tieEnd = document.querySelector('#tieEndContainer');
         let gameEnd = document.querySelector('#gameEndContainer');
         gameEnd.style.visibility = "hidden";
         tieEnd.style.visibility = "hidden";
     }
 
-    return {updateDisplay, gameEndPopup, restartGameDisplay, tie}
+    return {update, gameEndPopup, restart, tie}
 })();
 
 
 const playerTurn = () => {
     let currentTurn = game.getCurrentTurn();
-    playerXDiv = document.querySelector('#playerX');
-    playerODiv = document.querySelector('#playerO');
+    const playerXDiv = document.querySelector('#playerX');
+    const playerODiv = document.querySelector('#playerO');
     if (currentTurn == "x") {
         playerXDiv.classList.add('active');
         playerODiv.classList.remove('active');
@@ -136,13 +136,12 @@ document.addEventListener('click', (e) => {
 })
 
 
-
 const restartClick = (() => {
     const refresh = document.querySelector('#gameRefreshButton');
     const tieRefresh = document.querySelector('#tieRefreshButton');
 
-    refresh.addEventListener('click', () => game.restartGame())
-    tieRefresh.addEventListener('click', () => game.restartGame());
+    refresh.addEventListener('click', () => game.restart())
+    tieRefresh.addEventListener('click', () => game.restart());
 })();
 
 
@@ -153,11 +152,7 @@ const computer = (() => {
     let tieState = false;
     let testSign = ''
 
-    let scores = {
-        "x": -1,
-        'o': 1,
-        'tie': 0
-    };
+    let scores = {"x": -1, 'o': 1,'tie': 0};
 
     const bestMove = () => {
         let bestScore = -Infinity;
@@ -175,7 +170,7 @@ const computer = (() => {
             }
         }
         boardArr[move] = 'o';
-        display.updateDisplay(boardArr)
+        display.update(boardArr)
         game.switchTurn();
     }
 
