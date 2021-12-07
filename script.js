@@ -4,17 +4,11 @@ const gameboard = (() => {
     return {boardArr};
 })();
 
-const Player = (sign) => {
-    this.sign = sign;
-    return {sign}
-}
-
 const gameController = (() => {
-
-    let gameMode = "computer";
-
     winState = false;
     tieState = false;
+
+    let gameMode = "computer";
 
     let currentTurn = 'x';
 
@@ -30,26 +24,30 @@ const gameController = (() => {
         gameboard.boardArr[index] = currentTurn;
         displayController.updateDisplay(gameboard.boardArr)
         switchTurn();
-        
-        computer.play("o")
-    
+        if (gameMode == "computer") {
+            computer.play("o")    
+        }  
     }
 
+    const tieCheck = () => {
+        let a = gameboard.boardArr.every(i => i.length > 0 && winState == false);
+        if (a) {
+            displayController.tie();
+            tieState = "true"
+        }
+    }
     
     const winCheck = () => {
         let board = gameboard.boardArr;
-        
         if (board[0].length > 0) {
             diagonal(0, board[0], board);
             horizontal(0, board[0], board);
             vertical(0, board[0], board);
         } 
-
         if (board[2].length > 0) {
             diagonal(2, board[2], board);
         } 
-        
-        for (let i = 1; i < 3; i++) {
+        for (let i = 1; i <= 2; i++) {
             if (board[i].length > 0) {
                 vertical(i, board[i], board)
             }
@@ -61,45 +59,21 @@ const gameController = (() => {
         }
     }
 
-    const tieCheck = () => {
-        let b = gameboard.boardArr;
-        let gameEnd = document.querySelector('#gameEndContainer');
-        if (b[0].length > 0 && b[1].length > 0 && b[2].length > 0 && b[3].length > 0 && b[4].length > 0 && b[5].length > 0 && b[6].length > 0 && b[7].length > 0 && b[8].length > 0 && winState == false) {
-            displayController.tie();
-            tieState = "true"
-        }
+    const horizontal = (i, sign, board) => {
+        if (board[i+1] == sign && board[i+2] == sign) gameEnd(sign);
     }
-
-
-
-    const horizontal = (index, sign, board) => {
-        if (board[index+1] == sign && board[index+2] == sign) {
-            gameEnd(sign);
-        }
+    const vertical = (i, sign, board) => {
+        if (board[i+3] == sign && board[i+6] == sign) gameEnd(sign);
     }
-    const vertical = (index, sign, board) => {
-        if (board[index+3] == sign && board[index+6] == sign) {
-            gameEnd(sign);
-        }
+    const diagonal = (i, sign, board) => {
+        if (i == 0 && board[4] == sign && board[8] == sign) gameEnd(sign);
+        else if (i == 2 && board[4] == sign && board[6] == sign) gameEnd(sign);
     }
-    const diagonal = (index, sign, board) => {
-        if (index == 0 && board[4] == sign && board[8] == sign) {
-            gameEnd(sign);
-        } 
-        else if (index == 2 && board[4] == sign && board[6] == sign) {
-            gameEnd(sign);
-        }
-    }
-
     
     const gameEnd = (sign) => {
-        let winner = sign;
-        displayController.gameEndPopup(winner);
-        winState = true;
-        return winState;
+        displayController.gameEndPopup(sign);
+        return winState = true;
     }
-
-
 
     const clearBoardArr = () => {
         gameboard.boardArr = [[],[],[],[],[],[],[],[],[]];
@@ -117,6 +91,9 @@ const gameController = (() => {
     return {switchTurn, gameMode, mark, winCheck, restartGame, tieCheck, currentTurn, getCurrentTurn}
 })();
 
+
+
+
 const displayController = (() => {
     const updateDisplay = (arr) => {
         for (let i = 0; i < arr.length; i++) {
@@ -125,17 +102,14 @@ const displayController = (() => {
         }
     }
 
- 
     const tie = () => {
         let tieEnd = document.querySelector('#tieEndContainer');
-
         setTimeout(function(){ tieEnd.style.visibility = "visible"; }, 300);
     }
 
     const gameEndPopup = (winner) => {
         let gameEnd = document.querySelector('#gameEndContainer');
         const gameEndTitle = document.querySelector('#gameEndTitle');
-
         setTimeout(function(){ 
             gameEndTitle.innerHTML = "PLAYER " + winner.toUpperCase() + " WINS";
             gameEnd.style.visibility = "visible"
@@ -157,7 +131,6 @@ const playerTurn = () => {
     let currentTurn = gameController.getCurrentTurn();
     playerXDiv = document.querySelector('#playerX');
     playerODiv = document.querySelector('#playerO');
-
     if (currentTurn == "x") {
         playerXDiv.classList.add('active');
         playerODiv.classList.remove('active');
@@ -166,8 +139,8 @@ const playerTurn = () => {
         playerODiv.classList.toggle('active');
     }
 };
-
 playerTurn();
+
 
 const markClick = (() => {
     document.addEventListener('click', (e) => {
@@ -179,6 +152,7 @@ const markClick = (() => {
         gameController.tieCheck();
     })
 })();
+
 
 const restartClick = (() => {
     const refreshButton = document.querySelector('#gameRefreshButton');
@@ -192,6 +166,8 @@ const restartClick = (() => {
 })();
 
 
+
+
 const computer = (() => {
     let testBoard = [];
     let winState = false;
@@ -199,10 +175,7 @@ const computer = (() => {
     let testSign = ''
 
     const play = (currentTurn) => {
-        let a = gameboard.boardArr.every(index => index[0] == 'x' || index[0] =='o' )
-        if (a == false && currentTurn == "o") {
-            bestMove('o');
-        }
+        if (currentTurn == "o") bestMove();
     }
 
     const bestMove = () => {
@@ -211,24 +184,19 @@ const computer = (() => {
         testBoard = gameboard.boardArr;
         for (let i = 0; i < 9; i++) {
             if (testBoard[i] == '') {
-                
                 testBoard[i] = 'o';
-
                 let score = minimax(testBoard, 0, false);
                 testBoard[i] = '';
-
                 if (score > bestScore) {
                     bestScore = score;
                     move = i;
                 }
             }
         }
-
         gameboard.boardArr[move] = 'o';
         displayController.updateDisplay(gameboard.boardArr)
         gameController.switchTurn();
     }
-
 
     let scores = {
         "x": -1,
@@ -236,23 +204,19 @@ const computer = (() => {
         'tie': 0
     };
 
-    function minimax(testBoard, depth, isMaximizing) {
+    function minimax(testBoard, depth, maximizing) {
         let result = testResult(testBoard); 
-
         if (result !== null) {
-
             winState = false;
             tieState = false;         
             return scores[result];
         }
 
-        if (isMaximizing) {
+        if (maximizing) {
             let bestScore = -Infinity;
             for (let i = 0; i < 9; i++) {
                 if (testBoard[i] == '') {
-
                     testBoard[i] = 'o';
-
                     let score = minimax(testBoard, depth + 1, false);
                     testBoard[i] = '';
                     bestScore = Math.max(score, bestScore);
@@ -263,9 +227,7 @@ const computer = (() => {
             let bestScore = Infinity;
             for (let i = 0; i < 9; i++){
                 if (testBoard[i] == '') {
-
                     testBoard[i] = 'x';
-
                     let score = minimax(testBoard, depth + 1, true);
                     testBoard[i] = '';
                     bestScore = Math.min(score, bestScore);
@@ -295,19 +257,16 @@ const computer = (() => {
         }
     }
 
-    const winCheck = (testBoard) => {
-        let board = testBoard;
+    const winCheck = (board) => {
         if (board[0].length > 0) {
             diagonal(0, board[0], board);
             horizontal(0, board[0], board);
             vertical(0, board[0], board);
         } 
-
         if (board[2].length > 0) {
             diagonal(2, board[2], board);
         } 
-        
-        for (let i = 1; i < 3; i++) {
+        for (let i = 1; i <= 2; i++) {
             if (board[i].length > 0) {
                 vertical(i, board[i], board)
             }
@@ -336,15 +295,13 @@ const computer = (() => {
         if (index == 0 && board[4] == sign && board[8] == sign) {
             winState = true;
             testSign = sign
-        } 
-        else if (index == 2 && board[4] == sign && board[6] == sign) {
+        } else if (index == 2 && board[4] == sign && board[6] == sign) {
             winState = true;
             testSign = sign
         }
     }
 
-
-    return {bestMove, play}
+    return {play}
 })();
 
 
