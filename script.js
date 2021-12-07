@@ -1,8 +1,8 @@
 let boardArr = [[],[],[],[],[],[],[],[],[]];
 
-const gameController = (() => {
+const game = (() => {
     let winState = false;
-    let gameMode = "computer";
+    let gameMode = "";
     let currentTurn = 'x';
 
     const getCurrentTurn = () => currentTurn;
@@ -15,14 +15,14 @@ const gameController = (() => {
 
     const mark = (index) => {
         boardArr[index] = currentTurn;
-        displayController.updateDisplay(boardArr);
+        display.updateDisplay(boardArr);
         switchTurn();
         if (gameMode == "computer" && currentTurn == "o") computer.bestMove();  
     }
 
     const tieCheck = () => {
         let a = boardArr.every(i => i.length > 0 && winState == false);
-        if (a) displayController.tie();
+        if (a) display.tie();
     }
     
     const winCheck = (board) => {
@@ -58,19 +58,17 @@ const gameController = (() => {
     }
     
     const gameEnd = (sign) => {
-        displayController.gameEndPopup(sign);
+        display.gameEndPopup(sign);
         return winState = true;
     }
 
-    const clearBoardArr = () => {
-        boardArr = [[],[],[],[],[],[],[],[],[]];
-    }
-
+    const clearBoardArr = () => boardArr = [[],[],[],[],[],[],[],[],[]];
+    
     const restartGame = () => {
         clearBoardArr();
         winState = false;
-        displayController.updateDisplay(boardArr);
-        displayController.restartGameDisplay();
+        display.updateDisplay(boardArr);
+        display.restartGameDisplay();
         currentTurn = 'x';
         playerTurn();
     }
@@ -81,7 +79,7 @@ const gameController = (() => {
 
 
 
-const displayController = (() => {
+const display = (() => {
     const updateDisplay = (arr) => {
         for (let i = 0; i < arr.length; i++) {
             let space = document.querySelector('#s' + i);
@@ -115,7 +113,7 @@ const displayController = (() => {
 
 
 const playerTurn = () => {
-    let currentTurn = gameController.getCurrentTurn();
+    let currentTurn = game.getCurrentTurn();
     playerXDiv = document.querySelector('#playerX');
     playerODiv = document.querySelector('#playerO');
     if (currentTurn == "x") {
@@ -131,10 +129,10 @@ playerTurn();
 
 document.addEventListener('click', (e) => {
     if (e.target.classList == 'space' && e.target.innerHTML.length == 0) {
-        gameController.mark(e.target.id[1]);
+        game.mark(e.target.id[1]);
     }
-    gameController.winCheck(boardArr);
-    gameController.tieCheck();
+    game.winCheck(boardArr);
+    game.tieCheck();
 })
 
 
@@ -143,8 +141,8 @@ const restartClick = (() => {
     const refresh = document.querySelector('#gameRefreshButton');
     const tieRefresh = document.querySelector('#tieRefreshButton');
 
-    refresh.addEventListener('click', () => gameController.restartGame())
-    tieRefresh.addEventListener('click', () => gameController.restartGame());
+    refresh.addEventListener('click', () => game.restartGame())
+    tieRefresh.addEventListener('click', () => game.restartGame());
 })();
 
 
@@ -177,8 +175,8 @@ const computer = (() => {
             }
         }
         boardArr[move] = 'o';
-        displayController.updateDisplay(boardArr)
-        gameController.switchTurn();
+        display.updateDisplay(boardArr)
+        game.switchTurn();
     }
 
     function minimax(testBoard, depth, maximizing) {
@@ -188,7 +186,6 @@ const computer = (() => {
             tieState = false;         
             return scores[result];
         }
-
         if (maximizing) {
             let bestScore = -Infinity;
             for (let i = 0; i < 9; i++) {
@@ -213,7 +210,6 @@ const computer = (() => {
             return bestScore;
         }
     }
-
 
     const testResult = (testBoard) => {
         winCheck(testBoard);
@@ -250,7 +246,6 @@ const computer = (() => {
         }
     }
 
-
     const horizontal = (i, sign, board) => {
         if (board[i+1] == sign && board[i+2] == sign) {
             winState = true;
@@ -272,6 +267,5 @@ const computer = (() => {
             testSign = sign
         }
     }
-
     return {bestMove}
 })();
