@@ -4,8 +4,7 @@ const gameboard = (() => {
 })();
 
 const gameController = (() => {
-    winState = false;
-    tieState = false;
+    let winState = false;
     let gameMode = "computer";
     let currentTurn = 'x';
 
@@ -19,11 +18,9 @@ const gameController = (() => {
 
     const mark = (index) => {
         gameboard.boardArr[index] = currentTurn;
-        displayController.updateDisplay(gameboard.boardArr)
+        displayController.updateDisplay(gameboard.boardArr);
         switchTurn();
-        if (gameMode == "computer" && currentTurn == "o") {
-            computer.bestMove();  
-        }  
+        if (gameMode == "computer" && currentTurn == "o") computer.bestMove();  
     }
 
     const tieCheck = () => {
@@ -43,12 +40,12 @@ const gameController = (() => {
         } 
         for (let i = 1; i <= 2; i++) {
             if (board[i].length > 0 ) {
-                vertical(i, board[i], board)
+                vertical(i, board[i], board);
             }
         }
         for (let i = 3; i <= 6; i += 3) {
             if (board[i].length > 0) {
-                horizontal(i, board[i], board)
+                horizontal(i, board[i], board);
             } 
         }
     }
@@ -82,7 +79,7 @@ const gameController = (() => {
         playerTurn();
     }
 
-    return {switchTurn, gameMode, mark, winCheck, restartGame, tieCheck, currentTurn, getCurrentTurn}
+    return {switchTurn, mark, winCheck, restartGame, tieCheck, getCurrentTurn}
 })();
 
 
@@ -136,16 +133,14 @@ const playerTurn = () => {
 playerTurn();
 
 
-const markClick = (() => {
-    document.addEventListener('click', (e) => {
-        if (e.target.classList == 'space' && e.target.innerHTML.length == 0) {
-            let index = e.target.id[1];
-            gameController.mark(index);
-        }
-        gameController.winCheck();
-        gameController.tieCheck();
-    })
-})();
+document.addEventListener('click', (e) => {
+    if (e.target.classList == 'space' && e.target.innerHTML.length == 0) {
+        gameController.mark(e.target.id[1]);
+    }
+    gameController.winCheck();
+    gameController.tieCheck();
+})
+
 
 
 const restartClick = (() => {
