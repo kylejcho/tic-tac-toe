@@ -28,8 +28,7 @@ const gameController = (() => {
         if (a) displayController.tie();
     }
     
-    const winCheck = () => {
-        let board = gameboard.boardArr;
+    const winCheck = (board) => {
         if (board[0].length > 0) {
             diagonal(0, board[0], board);
             horizontal(0, board[0], board);
@@ -137,7 +136,7 @@ document.addEventListener('click', (e) => {
     if (e.target.classList == 'space' && e.target.innerHTML.length == 0) {
         gameController.mark(e.target.id[1]);
     }
-    gameController.winCheck();
+    gameController.winCheck(gameboard.boardArr);
     gameController.tieCheck();
 })
 
