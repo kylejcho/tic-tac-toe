@@ -1,7 +1,4 @@
-const gameboard = (() => {
-    let boardArr = [[],[],[],[],[],[],[],[],[]];
-    return {boardArr};
-})();
+let boardArr = [[],[],[],[],[],[],[],[],[]];
 
 const gameController = (() => {
     let winState = false;
@@ -17,14 +14,14 @@ const gameController = (() => {
     }
 
     const mark = (index) => {
-        gameboard.boardArr[index] = currentTurn;
-        displayController.updateDisplay(gameboard.boardArr);
+        boardArr[index] = currentTurn;
+        displayController.updateDisplay(boardArr);
         switchTurn();
         if (gameMode == "computer" && currentTurn == "o") computer.bestMove();  
     }
 
     const tieCheck = () => {
-        let a = gameboard.boardArr.every(i => i.length > 0 && winState == false);
+        let a = boardArr.every(i => i.length > 0 && winState == false);
         if (a) displayController.tie();
     }
     
@@ -66,13 +63,13 @@ const gameController = (() => {
     }
 
     const clearBoardArr = () => {
-        gameboard.boardArr = [[],[],[],[],[],[],[],[],[]];
+        boardArr = [[],[],[],[],[],[],[],[],[]];
     }
 
     const restartGame = () => {
         clearBoardArr();
         winState = false;
-        displayController.updateDisplay(gameboard.boardArr);
+        displayController.updateDisplay(boardArr);
         displayController.restartGameDisplay();
         currentTurn = 'x';
         playerTurn();
@@ -136,7 +133,7 @@ document.addEventListener('click', (e) => {
     if (e.target.classList == 'space' && e.target.innerHTML.length == 0) {
         gameController.mark(e.target.id[1]);
     }
-    gameController.winCheck(gameboard.boardArr);
+    gameController.winCheck(boardArr);
     gameController.tieCheck();
 })
 
@@ -167,7 +164,7 @@ const computer = (() => {
     const bestMove = () => {
         let bestScore = -Infinity;
         let move;
-        testBoard = gameboard.boardArr;
+        testBoard = boardArr;
         for (let i = 0; i < 9; i++) {
             if (testBoard[i] == '') {
                 testBoard[i] = 'o';
@@ -179,8 +176,8 @@ const computer = (() => {
                 }
             }
         }
-        gameboard.boardArr[move] = 'o';
-        displayController.updateDisplay(gameboard.boardArr)
+        boardArr[move] = 'o';
+        displayController.updateDisplay(boardArr)
         gameController.switchTurn();
     }
 
