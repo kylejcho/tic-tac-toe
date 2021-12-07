@@ -260,23 +260,23 @@ const computer = (() => {
     }
 
 
-    const horizontal = (index, sign, board) => {
-        if (board[index+1] == sign && board[index+2] == sign) {
+    const horizontal = (i, sign, board) => {
+        if (board[i+1] == sign && board[i+2] == sign) {
             winState = true;
             testSign = sign
         }
     }
-    const vertical = (index, sign, board) => {
-        if (board[index+3] == sign && board[index+6] == sign) {
+    const vertical = (i, sign, board) => {
+        if (board[i+3] == sign && board[i+6] == sign) {
             winState = true;
             testSign = sign
         }
     }
-    const diagonal = (index, sign, board) => {
-        if (index == 0 && board[4] == sign && board[8] == sign) {
+    const diagonal = (i, sign, board) => {
+        if (i == 0 && board[4] == sign && board[8] == sign) {
             winState = true;
             testSign = sign
-        } else if (index == 2 && board[4] == sign && board[6] == sign) {
+        } else if (i == 2 && board[4] == sign && board[6] == sign) {
             winState = true;
             testSign = sign
         }
@@ -284,52 +284,3 @@ const computer = (() => {
 
     return {bestMove}
 })();
-
-
-
-
-/*
-if (maximizing) {
-    let bestScore = -Infinity;
-} else {
-    let bestScore = Infinity;
-}
-for (let i = 0; i < 9; i++) {
-    if (testBoard[i] == '') {
-        testBoard[i] = 'o';
-        let score = minimax(testBoard, depth + 1, false);
-        testBoard[i] = '';
-        bestScore = Math.max(score, bestScore);
-    }
-}
-return bestScore;
-
-
-
-
-
-
-if (maximizing) {
-            let bestScore = -Infinity;
-            for (let i = 0; i < 9; i++) {
-                if (testBoard[i] == '') {
-                    testBoard[i] = 'o';
-                    let score = minimax(testBoard, depth + 1, false);
-                    testBoard[i] = '';
-                    bestScore = Math.max(score, bestScore);
-                }
-            }
-            return bestScore;
-        } else {
-            let bestScore = Infinity;
-            for (let i = 0; i < 9; i++){
-                if (testBoard[i] == '') {
-                    testBoard[i] = 'x';
-                    let score = minimax(testBoard, depth + 1, true);
-                    testBoard[i] = '';
-                    bestScore = Math.min(score, bestScore);
-                }
-            }
-            return bestScore;
-        }
-*/
