@@ -42,7 +42,7 @@ const gameController = (() => {
             diagonal(2, board[2], board);
         } 
         for (let i = 1; i <= 2; i++) {
-            if (board[i].length > 0) {
+            if (board[i].length > 0 ) {
                 vertical(i, board[i], board)
             }
         }
@@ -149,16 +149,12 @@ const markClick = (() => {
 
 
 const restartClick = (() => {
-    const refreshButton = document.querySelector('#gameRefreshButton');
-    refreshButton.addEventListener('click', () => {
-        gameController.restartGame();
-    })
-    const tieRefreshButton = document.querySelector('#tieRefreshButton');
-    tieRefreshButton.addEventListener('click', () => {
-        gameController.restartGame();
-    })
-})();
+    const refresh = document.querySelector('#gameRefreshButton');
+    const tieRefresh = document.querySelector('#tieRefreshButton');
 
+    refresh.addEventListener('click', () => gameController.restartGame())
+    tieRefresh.addEventListener('click', () => gameController.restartGame());
+})();
 
 
 
@@ -167,6 +163,12 @@ const computer = (() => {
     let winState = false;
     let tieState = false;
     let testSign = ''
+
+    let scores = {
+        "x": -1,
+        'o': 1,
+        'tie': 0
+    };
 
     const bestMove = () => {
         let bestScore = -Infinity;
@@ -187,12 +189,6 @@ const computer = (() => {
         displayController.updateDisplay(gameboard.boardArr)
         gameController.switchTurn();
     }
-
-    let scores = {
-        "x": -1,
-        'o': 1,
-        'tie': 0
-    };
 
     function minimax(testBoard, depth, maximizing) {
         let result = testResult(testBoard); 
@@ -231,20 +227,15 @@ const computer = (() => {
     const testResult = (testBoard) => {
         winCheck(testBoard);
         tieCheck(testBoard);
-        if (winState == true) {
-            return testSign;
-        } else if (tieState == true) {
-            return "tie";
-        } else {
-            return null;
-        }
+        
+        if (winState == true) return testSign;
+        else if (tieState == true) return "tie";
+        else return null;
     }
 
     const tieCheck = (testBoard) => {
-        let b = testBoard;
-        if (b[0].length > 0 && b[1].length > 0 && b[2].length > 0 && b[3].length > 0 && b[4].length > 0 && b[5].length > 0 && b[6].length > 0 && b[7].length > 0 && b[8].length > 0 && winState == false) {
-            tieState = true;
-        }
+        let a = testBoard.every(i => i.length > 0);
+        if (a && winState == false) tieState = true;
     }
 
     const winCheck = (board) => {
@@ -293,3 +284,52 @@ const computer = (() => {
 
     return {bestMove}
 })();
+
+
+
+
+/*
+if (maximizing) {
+    let bestScore = -Infinity;
+} else {
+    let bestScore = Infinity;
+}
+for (let i = 0; i < 9; i++) {
+    if (testBoard[i] == '') {
+        testBoard[i] = 'o';
+        let score = minimax(testBoard, depth + 1, false);
+        testBoard[i] = '';
+        bestScore = Math.max(score, bestScore);
+    }
+}
+return bestScore;
+
+
+
+
+
+
+if (maximizing) {
+            let bestScore = -Infinity;
+            for (let i = 0; i < 9; i++) {
+                if (testBoard[i] == '') {
+                    testBoard[i] = 'o';
+                    let score = minimax(testBoard, depth + 1, false);
+                    testBoard[i] = '';
+                    bestScore = Math.max(score, bestScore);
+                }
+            }
+            return bestScore;
+        } else {
+            let bestScore = Infinity;
+            for (let i = 0; i < 9; i++){
+                if (testBoard[i] == '') {
+                    testBoard[i] = 'x';
+                    let score = minimax(testBoard, depth + 1, true);
+                    testBoard[i] = '';
+                    bestScore = Math.min(score, bestScore);
+                }
+            }
+            return bestScore;
+        }
+*/
