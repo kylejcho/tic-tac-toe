@@ -211,9 +211,9 @@ const computer = (() => {
         testBoard = gameboard.boardArr;
         for (let i = 0; i < 9; i++) {
             if (testBoard[i] == '') {
-                //console.log('Testing scenario: testBoard[' + i + ']');
+                
                 testBoard[i] = 'o';
-                //console.log(testBoard)
+
                 let score = minimax(testBoard, 0, false);
                 testBoard[i] = '';
 
@@ -238,9 +238,9 @@ const computer = (() => {
 
     function minimax(testBoard, depth, isMaximizing) {
         let result = testResult(testBoard); 
-        //console.log('test result: ' + result);
+
         if (result !== null) {
-            //console.log('score = ' + scores[result]);
+
             winState = false;
             tieState = false;         
             return scores[result];
@@ -250,9 +250,9 @@ const computer = (() => {
             let bestScore = -Infinity;
             for (let i = 0; i < 9; i++) {
                 if (testBoard[i] == '') {
-                    //console.log("testing = arr[" + i + "]")
+
                     testBoard[i] = 'o';
-                    //console.log(testBoard)
+
                     let score = minimax(testBoard, depth + 1, false);
                     testBoard[i] = '';
                     bestScore = Math.max(score, bestScore);
@@ -263,9 +263,9 @@ const computer = (() => {
             let bestScore = Infinity;
             for (let i = 0; i < 9; i++){
                 if (testBoard[i] == '') {
-                    //console.log("testing = arr[" + i + "]")
+
                     testBoard[i] = 'x';
-                    //console.log(testBoard)
+
                     let score = minimax(testBoard, depth + 1, true);
                     testBoard[i] = '';
                     bestScore = Math.min(score, bestScore);
