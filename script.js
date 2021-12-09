@@ -115,7 +115,7 @@ const game = (() => {
         playerTurn();
     }
 
-    return {switchTurn, mark, winCheck, restart, tieCheck, currentTurn, getCurrentTurn, gameMode}
+    return {winState, switchTurn, mark, winCheck, restart, tieCheck, currentTurn, getCurrentTurn, gameMode}
 })();
 
 
@@ -144,6 +144,7 @@ const display = (() => {
     }
     
     const restart = () => {
+        threeRowClear();
         let tieEnd = document.querySelector('#tieEndContainer');
         let gameEnd = document.querySelector('#gameEndContainer');
         gameEnd.style.visibility = "hidden";
@@ -158,13 +159,13 @@ const display = (() => {
         setTimeout(function(){one.classList.add("highlight"); }, 150);
         setTimeout(function(){two.classList.add("highlight"); }, 250);
         setTimeout(function(){three.classList.add("highlight"); }, 350);
+    }
 
-
-        setTimeout(function(){ 
-            one.classList.remove("highlight");
-            two.classList.remove("highlight");
-            three.classList.remove("highlight");
-        }, 1000);
+    const threeRowClear = () => {
+        for (let i = 0; i < 9; i++) {
+            let space = document.querySelector('#s' + i + '');
+            space.classList.remove("highlight");
+        }
     }
 
     return {update, gameEndPopup, restart, tie, threeRow}
@@ -196,6 +197,14 @@ playerTurn();
 
 
 document.addEventListener('click', (e) => {
+    let tieEnd = document.querySelector('#tieEndContainer');
+    let gameEnd = document.querySelector('#gameEndContainer');
+    if (game.getCurrentTurn() != 'x' && game.gameMode == 'computer') {
+        return;
+    }
+    if (gameEnd.style.visibility == "visible" || tieEnd.style.visibility == "visible") {
+        return;
+    }
     if (e.target.classList == 'space' && e.target.innerHTML.length == 0) {
         game.mark(e.target.id[1]);
     }
@@ -221,6 +230,7 @@ const computer = (() => {
     let testSign = ''
 
     let scores = {"x": -1, 'o': 1,'tie': 0};
+    
 
     const bestMove = () => {
         let bestScore = -Infinity;
@@ -239,7 +249,6 @@ const computer = (() => {
         }
         
         boardArr[move] = 'o';
-
         setTimeout(function(){
             display.update(boardArr); 
             game.switchTurn();
