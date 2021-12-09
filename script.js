@@ -175,6 +175,13 @@ const playerTurn = (a) => {
     let currentTurn = game.getCurrentTurn();
     const playerXDiv = document.querySelector('#playerX');
     const playerODiv = document.querySelector('#playerO');
+
+    if (game.gameMode == "computer") {
+        playerODiv.innerHTML = "COMP O";
+    } else {
+        playerODiv.innerHTML = "PLAYER O";
+    }
+
     if (currentTurn == "x") {
         playerXDiv.classList.add('active');
         playerODiv.classList.remove('active');
@@ -232,7 +239,7 @@ const computer = (() => {
         }
         
         boardArr[move] = 'o';
-        
+
         setTimeout(function(){
             display.update(boardArr); 
             game.switchTurn();
