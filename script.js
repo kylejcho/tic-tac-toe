@@ -17,7 +17,7 @@ const game = (() => {
         boardArr[index] = currentTurn;
         display.update(boardArr);
         switchTurn();
-        if (gameMode == "computer" && currentTurn == "o") computer.bestMove();  
+        if (gameMode == "computer" && currentTurn == "o") computer.bestMove(); 
     }
 
     const tieCheck = () => {
@@ -48,23 +48,54 @@ const game = (() => {
 
     const horizontal = (i, sign, board) => {
         if (board[i+1] == sign && board[i+2] == sign) {
-            display.threeRow(i, i + 1, i + 2);
-            gameEnd(sign);
+            let x;
+            if (game.gameMode == "computer") {
+                x = 800
+            } else {
+                x = 0
+            }
+            setTimeout(function(){
+                display.threeRow(i, i + 1, i + 2);
+                gameEnd(sign);
+            }, x);
+            
         }
     }
     const vertical = (i, sign, board) => {
+        let x;
+        if (game.gameMode == "computer") {
+            x = 800
+        } else {
+            x = 0
+        }
         if (board[i+3] == sign && board[i+6] == sign) {
-            display.threeRow(i, i + 3, i + 6);
-            gameEnd(sign);
+            setTimeout(function(){
+                display.threeRow(i, i + 3, i + 6); 
+                gameEnd(sign);
+            }, x);
+
+
         }
     }
     const diagonal = (i, sign, board) => {
+        let x;
+        if (game.gameMode == "computer") {
+            x = 800
+        } else {
+            x = 0
+        }
         if (i == 0 && board[4] == sign && board[8] == sign) {
-            display.threeRow(0, 4, 8);
-            gameEnd(sign);
+            setTimeout(function(){
+                display.threeRow(0, 4, 8);
+                gameEnd(sign);
+            }, x);
+            
         } else if (i == 2 && board[4] == sign && board[6] == sign) {
-            display.threeRow(2, 4, 6);
-            gameEnd(sign);
+            setTimeout(function(){
+                display.threeRow(2, 4, 6);
+                gameEnd(sign);
+            }, x);
+            
         }
     }
     
@@ -84,7 +115,7 @@ const game = (() => {
         playerTurn();
     }
 
-    return {switchTurn, mark, winCheck, restart, tieCheck, getCurrentTurn}
+    return {switchTurn, mark, winCheck, restart, tieCheck, currentTurn, getCurrentTurn, gameMode}
 })();
 
 
@@ -140,7 +171,7 @@ const display = (() => {
 })();
 
 
-const playerTurn = () => {
+const playerTurn = (a) => {
     let currentTurn = game.getCurrentTurn();
     const playerXDiv = document.querySelector('#playerX');
     const playerODiv = document.querySelector('#playerO');
@@ -153,6 +184,8 @@ const playerTurn = () => {
     }
 };
 playerTurn();
+
+
 
 
 document.addEventListener('click', (e) => {
@@ -197,8 +230,14 @@ const computer = (() => {
                 }
             }
         }
+        
+
+        
+        
         boardArr[move] = 'o';
-        display.update(boardArr)
+        setTimeout(function(){
+            display.update(boardArr); 
+        }, 650);
         game.switchTurn();
     }
 
