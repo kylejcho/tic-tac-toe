@@ -231,14 +231,12 @@ const computer = (() => {
             }
         }
         
-
-        
-        
         boardArr[move] = 'o';
+        
         setTimeout(function(){
             display.update(boardArr); 
+            game.switchTurn();
         }, 650);
-        game.switchTurn();
     }
 
     function minimax(testBoard, depth, maximizing) {
