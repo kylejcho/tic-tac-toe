@@ -5,6 +5,22 @@ const game = (() => {
     let gameMode = "computer";
     let currentTurn = 'x';
 
+
+    const gameModeSelection = () => {
+        const selection = document.querySelector('select');
+        if (selection.value == "Play against a friend") {
+            gameMode = ""
+            restart()
+            playerTurn();
+        } else {
+            gameMode = "computer";
+            restart();
+            playerTurn();
+        }
+    }
+
+    const getGameMode = () => gameMode;
+
     const getCurrentTurn = () => currentTurn;
 
     const switchTurn = () => {
@@ -51,7 +67,7 @@ const game = (() => {
     const horizontal = (i, sign, board) => {
         if (board[i+1] == sign && board[i+2] == sign) {
             let x;
-            if (game.gameMode == "computer") {
+            if (game.getGameMode() == "computer") {
                 x = 800
             } else {
                 x = 0
@@ -66,7 +82,7 @@ const game = (() => {
     }
     const vertical = (i, sign, board) => {
         let x;
-        if (game.gameMode == "computer") {
+        if (game.getGameMode() == "computer") {
             x = 800
         } else {
             x = 0
@@ -83,7 +99,7 @@ const game = (() => {
     }
     const diagonal = (i, sign, board) => {
         let x;
-        if (game.gameMode == "computer") {
+        if (game.getGameMode() == "computer") {
             x = 800
         } else {
             x = 0
@@ -122,7 +138,7 @@ const game = (() => {
         document.querySelector("#unclickableDiv").style.visibility = "hidden";
     }
 
-    return {winState, switchTurn, mark, winCheck, restart, tieCheck, currentTurn, getCurrentTurn, gameMode}
+    return {winState, gameModeSelection,getGameMode, switchTurn, mark, winCheck, restart, tieCheck, currentTurn, getCurrentTurn, gameMode}
 })();
 
 
@@ -137,6 +153,7 @@ const display = (() => {
     }
 
     const tie = () => {
+        document.querySelector('#unclickableDiv').style.visibility = "visible";
         let tieEnd = document.querySelector('#tieEndContainer');
         setTimeout(function(){ tieEnd.style.visibility = "visible"; }, 300);
     }
@@ -185,12 +202,12 @@ const display = (() => {
 })();
 
 
-const playerTurn = (a) => {
+const playerTurn = () => {
     let currentTurn = game.getCurrentTurn();
     const playerXDiv = document.querySelector('#playerX');
     const playerODiv = document.querySelector('#playerO');
 
-    if (game.gameMode == "computer") {
+    if (game.getGameMode()  == "computer") {
         playerODiv.innerHTML = "COMPUTER";
     } else {
         playerODiv.innerHTML = "PLAYER O";
@@ -228,7 +245,7 @@ const audio = (() => {
 document.addEventListener('click', (e) => {
     let tieEnd = document.querySelector('#tieEndContainer');
     let gameEnd = document.querySelector('#gameEndContainer');
-    if (game.getCurrentTurn() != 'x' && game.gameMode == 'computer') {
+    if (game.getCurrentTurn() != 'x' && game.getGameMode() == 'computer') {
         return;
     }
     if (document.querySelector('#unclickableDiv').style.visibility == "visible") {
@@ -240,6 +257,9 @@ document.addEventListener('click', (e) => {
     game.winCheck(boardArr);
     game.tieCheck();
 })
+
+const selection = document.querySelector('select');
+selection.addEventListener('change', () => game.gameModeSelection());
 
 
 const restartClick = (() => {
@@ -260,6 +280,11 @@ const computer = (() => {
 
     let scores = {"x": -1, 'o': 1,'tie': 0};
     
+    const botDifficulty = (difficulty) => {
+        if (difficulty == "easy") {
+            
+        }
+    }
 
     const bestMove = () => {
         let bestScore = -Infinity;
@@ -279,7 +304,9 @@ const computer = (() => {
         
         boardArr[move] = 'o';
         setTimeout(function(){
-            audio.pop();
+            if (document.querySelector('#unclickableDiv').style.visibility != "visible") {
+                audio.pop();
+            }
             display.update(boardArr); 
             game.switchTurn();
         }, 650);

@@ -82,12 +82,26 @@ header {
     transform: scale(1.05);
 }
 
-
-
 .highlight {
     background-color: #56b67e; 
     color: white; 
     animation: bounce 0.3s ease-in-out;
+}
+
+
+#optionsContainer {
+    display: flex;
+    justify-content: center; 
+}
+
+select {
+    box-shadow: 1px 1px 14px rgba(0, 0, 0, 0.1); 
+    padding: 5px;
+    margin-top: 1rem;
+    width: 15vw;
+    border-radius: 5px;
+    border: none;
+    font-size: 1.25rem;
 }
 
 @keyframes bounce {
@@ -177,6 +191,7 @@ header {
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.575);
     backdrop-filter: blur(4px);
+    z-index: 3;
 }
 
 #tieEnd {
