@@ -278,9 +278,9 @@ const computer = (() => {
         if (difficulty == "easy") {
             return randomMove();
         } else if (difficulty == "medium") {
-            botDifficulty = Math.floor(Math.random() * 2)
-        } else if (difficulty == "hard") {
             botDifficulty = Math.floor(Math.random() * 3)
+        } else if (difficulty == "hard") {
+            botDifficulty = Math.floor(Math.random() * 4)
         } else if (difficulty == "impossible") {
             return bestMove();
         } 
