@@ -82,6 +82,7 @@ header {
     transform: scale(1.05);
 }
 
+
 #gameEndContainer {
     visibility: hidden;
     display: flex;
