@@ -47,14 +47,25 @@ const game = (() => {
     }
 
     const horizontal = (i, sign, board) => {
-        if (board[i+1] == sign && board[i+2] == sign) gameEnd(sign);
+        if (board[i+1] == sign && board[i+2] == sign) {
+            display.threeRow(i, i + 1, i + 2);
+            gameEnd(sign);
+        }
     }
     const vertical = (i, sign, board) => {
-        if (board[i+3] == sign && board[i+6] == sign) gameEnd(sign);
+        if (board[i+3] == sign && board[i+6] == sign) {
+            display.threeRow(i, i + 3, i + 6);
+            gameEnd(sign);
+        }
     }
     const diagonal = (i, sign, board) => {
-        if (i == 0 && board[4] == sign && board[8] == sign) gameEnd(sign);
-        else if (i == 2 && board[4] == sign && board[6] == sign) gameEnd(sign);
+        if (i == 0 && board[4] == sign && board[8] == sign) {
+            display.threeRow(0, 4, 8);
+            gameEnd(sign);
+        } else if (i == 2 && board[4] == sign && board[6] == sign) {
+            display.threeRow(2, 4, 6);
+            gameEnd(sign);
+        }
     }
     
     const gameEnd = (sign) => {
@@ -98,7 +109,7 @@ const display = (() => {
         setTimeout(function(){ 
             gameEndTitle.innerHTML = "PLAYER " + winner.toUpperCase() + " WINS";
             gameEnd.style.visibility = "visible"
-        }, 300);
+        }, 1000);
     }
     
     const restart = () => {
@@ -108,7 +119,24 @@ const display = (() => {
         tieEnd.style.visibility = "hidden";
     }
 
-    return {update, gameEndPopup, restart, tie}
+    const threeRow = (a, b, c) => {
+        const one = document.querySelector('#s' + a + '');
+        const two = document.querySelector('#s' + b + '');
+        const three = document.querySelector('#s' + c + '');
+
+        setTimeout(function(){one.classList.add("highlight"); }, 150);
+        setTimeout(function(){two.classList.add("highlight"); }, 250);
+        setTimeout(function(){three.classList.add("highlight"); }, 350);
+
+
+        setTimeout(function(){ 
+            one.classList.remove("highlight");
+            two.classList.remove("highlight");
+            three.classList.remove("highlight");
+        }, 1000);
+    }
+
+    return {update, gameEndPopup, restart, tie, threeRow}
 })();
 
 

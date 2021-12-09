@@ -69,7 +69,7 @@ header {
     align-items: center;
     font-size: 5rem;
     background-color: #f5f5f5;
-    color: rgb(105, 105, 105);
+    color: #696969;
     border-radius: 15px;
     margin: 5px;
     padding-bottom: 1rem;
@@ -80,6 +80,26 @@ header {
     box-shadow: 1px 1px 14px rgba(0, 0, 0, 0.1); 
     background-color: #e7e7e7;
     transform: scale(1.05);
+}
+
+.highlight {
+    background-color: #56b67e; 
+    color: white; 
+    animation: bounce 0.3s ease-in-out;
+}
+
+@keyframes bounce {
+    50% {
+        transform: scale(1.5);
+    }
+
+    75% {
+        transform: scale(0.75);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 
@@ -169,7 +189,7 @@ header {
     font-weight: 800;
     height: 50px;
     width: 220px;
-    background-color: rgb(86, 182, 126);
+    background-color: #56b67e;
     transition: all 0.1s ease-in-out;
 }
 
