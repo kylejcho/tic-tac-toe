@@ -3,7 +3,7 @@ let boardArr = [[],[],[],[],[],[],[],[],[]];
 const game = (() => {
     let winState = false;
     let gameMode = "computer";
-    let botDifficulty = "easy";
+    let botDifficulty = "medium";
     let currentTurn = 'x';
 
 
