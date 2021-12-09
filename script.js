@@ -148,7 +148,7 @@ const display = (() => {
     const tie = () => {
         document.querySelector('#unclickableDiv').style.visibility = "visible";
         let tieEnd = document.querySelector('#tieEndContainer');
-        setTimeout(function(){ tieEnd.style.visibility = "visible"; }, 300);
+        setTimeout(function(){ tieEnd.style.visibility = "visible"; }, 1500);
     }
 
     const gameEndPopup = (winner) => {
@@ -162,7 +162,7 @@ const display = (() => {
                 gameEndTitle.innerHTML = "PLAYER " + winner.toUpperCase() + " WINS";
             }
             gameEnd.style.visibility = "visible"
-        }, 1000);
+        }, 1500);
     }
     
     const restart = () => {
@@ -178,10 +178,10 @@ const display = (() => {
         const two = document.querySelector('#s' + b + '');
         const three = document.querySelector('#s' + c + '');
 
-        setTimeout(function(){audio.win(); }, 150);
-        setTimeout(function(){one.classList.add("highlight"); }, 250);
-        setTimeout(function(){two.classList.add("highlight"); }, 350);
-        setTimeout(function(){three.classList.add("highlight"); }, 450);
+        setTimeout(function(){audio.win(); }, 750);
+        setTimeout(function(){one.classList.add("highlight"); }, 750);
+        setTimeout(function(){two.classList.add("highlight"); }, 850);
+        setTimeout(function(){three.classList.add("highlight"); }, 950);
     }
 
     const threeRowClear = () => {
@@ -302,12 +302,12 @@ const computer = (() => {
                 game.tieCheck();
             
                 setTimeout(function(){
-                    if (document.querySelector('#unclickableDiv').style.visibility != "visible") {
+                    if (document.querySelector('#gameEndContainer').style.visibility != "visible") {
                         audio.pop();
                     }
                     display.update(boardArr); 
                     game.switchTurn();
-                }, 650);
+                }, 550);
             } else {
                 randomMove();
             }
@@ -336,12 +336,12 @@ const computer = (() => {
         
         boardArr[move] = 'o';
         setTimeout(function(){
-            if (document.querySelector('#unclickableDiv').style.visibility != "visible") {
+            if (document.querySelector('#gameEndContainer').style.visibility != "visible") {
                 audio.pop();
             }
             display.update(boardArr); 
             game.switchTurn();
-        }, 650);
+        }, 550);
     }
 
     function minimax(testBoard, depth, maximizing) {
