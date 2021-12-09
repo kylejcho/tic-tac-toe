@@ -231,7 +231,7 @@ document.addEventListener('click', (e) => {
     if (game.getCurrentTurn() != 'x' && game.gameMode == 'computer') {
         return;
     }
-    if (gameEnd.style.visibility == "visible" || tieEnd.style.visibility == "visible") {
+    if (document.querySelector('#unclickableDiv').style.visibility == "visible") {
         return;
     }
     if (e.target.classList == 'space' && e.target.innerHTML.length == 0) {
