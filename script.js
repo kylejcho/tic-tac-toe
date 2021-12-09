@@ -14,9 +14,11 @@ const game = (() => {
     }
 
     const mark = (index) => {
+        audio.pop()
         boardArr[index] = currentTurn;
         display.update(boardArr);
         switchTurn();
+        
         if (gameMode == "computer" && currentTurn == "o") computer.bestMove(); 
     }
 
@@ -54,6 +56,7 @@ const game = (() => {
             } else {
                 x = 0
             }
+            document.querySelector('#unclickableDiv').style.visibility = "visible";
             setTimeout(function(){
                 display.threeRow(i, i + 1, i + 2);
                 gameEnd(sign);
@@ -69,6 +72,7 @@ const game = (() => {
             x = 0
         }
         if (board[i+3] == sign && board[i+6] == sign) {
+            document.querySelector('#unclickableDiv').style.visibility = "visible";
             setTimeout(function(){
                 display.threeRow(i, i + 3, i + 6); 
                 gameEnd(sign);
@@ -85,12 +89,14 @@ const game = (() => {
             x = 0
         }
         if (i == 0 && board[4] == sign && board[8] == sign) {
+            document.querySelector('#unclickableDiv').style.visibility = "visible";
             setTimeout(function(){
                 display.threeRow(0, 4, 8);
                 gameEnd(sign);
             }, x);
             
         } else if (i == 2 && board[4] == sign && board[6] == sign) {
+            document.querySelector('#unclickableDiv').style.visibility = "visible";
             setTimeout(function(){
                 display.threeRow(2, 4, 6);
                 gameEnd(sign);
@@ -113,6 +119,7 @@ const game = (() => {
         display.restart();
         currentTurn = 'x';
         playerTurn();
+        document.querySelector("#unclickableDiv").style.visibility = "hidden";
     }
 
     return {winState, switchTurn, mark, winCheck, restart, tieCheck, currentTurn, getCurrentTurn, gameMode}
@@ -137,8 +144,13 @@ const display = (() => {
     const gameEndPopup = (winner) => {
         let gameEnd = document.querySelector('#gameEndContainer');
         const gameEndTitle = document.querySelector('#gameEndTitle');
+        
         setTimeout(function(){ 
-            gameEndTitle.innerHTML = "PLAYER " + winner.toUpperCase() + " WINS";
+            if (winner == "o" && game.gameMode == "computer") {
+                gameEndTitle.innerHTML = "YOU LOSE";
+            } else {
+                gameEndTitle.innerHTML = "PLAYER " + winner.toUpperCase() + " WINS";
+            }
             gameEnd.style.visibility = "visible"
         }, 1000);
     }
@@ -156,9 +168,10 @@ const display = (() => {
         const two = document.querySelector('#s' + b + '');
         const three = document.querySelector('#s' + c + '');
 
-        setTimeout(function(){one.classList.add("highlight"); }, 150);
-        setTimeout(function(){two.classList.add("highlight"); }, 250);
-        setTimeout(function(){three.classList.add("highlight"); }, 350);
+        setTimeout(function(){audio.win(); }, 150);
+        setTimeout(function(){one.classList.add("highlight"); }, 250);
+        setTimeout(function(){two.classList.add("highlight"); }, 350);
+        setTimeout(function(){three.classList.add("highlight"); }, 450);
     }
 
     const threeRowClear = () => {
@@ -178,7 +191,7 @@ const playerTurn = (a) => {
     const playerODiv = document.querySelector('#playerO');
 
     if (game.gameMode == "computer") {
-        playerODiv.innerHTML = "COMP O";
+        playerODiv.innerHTML = "COMPUTER";
     } else {
         playerODiv.innerHTML = "PLAYER O";
     }
@@ -193,6 +206,22 @@ const playerTurn = (a) => {
 };
 playerTurn();
 
+
+const audio = (() => {
+    const win = () => {
+        const winAudio = document.querySelector('#winAudio');
+        winAudio.load();
+        winAudio.play()
+    }
+    
+    const pop = () => {
+        const popAudio = document.querySelector('#popAudio');
+        popAudio.load();
+        popAudio.play();
+    }
+
+    return {win, pop}
+})();
 
 
 
@@ -250,6 +279,7 @@ const computer = (() => {
         
         boardArr[move] = 'o';
         setTimeout(function(){
+            audio.pop();
             display.update(boardArr); 
             game.switchTurn();
         }, 650);

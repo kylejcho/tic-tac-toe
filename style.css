@@ -82,6 +82,8 @@ header {
     transform: scale(1.05);
 }
 
+
+
 .highlight {
     background-color: #56b67e; 
     color: white; 
@@ -103,6 +105,17 @@ header {
 }
 
 
+#unclickableDiv {
+    visibility: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 2;
+}
+
+
 #gameEndContainer {
     visibility: hidden;
     display: flex;
@@ -115,6 +128,7 @@ header {
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.575);
     backdrop-filter: blur(4px);
+    z-index: 3;
 }
 
 #gameEnd {
@@ -124,7 +138,6 @@ header {
     width: 100%;
     height: 500px;
     border-radius: 10px;
-    z-index: 3;
 }
 
 #gameEnd p {
