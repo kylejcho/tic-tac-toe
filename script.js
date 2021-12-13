@@ -48,7 +48,6 @@ const game = (() => {
 
         if (gameMode == "computer" && currentTurn == "o" && winState == false) {
             computer.difficulty(botDifficulty);
-            console.log(boardArr);
             winCheck(boardArr);
             tieCheck(boardArr)
         } 
@@ -334,7 +333,7 @@ const computer = (() => {
                 }
             }
         }
-        console.log(move)
+
         boardArr[move] = 'o';
         setTimeout(function(){
             if (document.querySelector('#gameEndContainer').style.visibility != "visible") {
