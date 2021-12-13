@@ -48,7 +48,9 @@ const game = (() => {
 
         if (gameMode == "computer" && currentTurn == "o" && winState == false) {
             computer.difficulty(botDifficulty);
-            console.log(boardArr)
+            console.log(boardArr);
+            winCheck(boardArr);
+            tieCheck(boardArr)
         } 
     }
 
@@ -321,8 +323,8 @@ const computer = (() => {
         for (let i = 0; i < 9; i++) {
             if (testBoard[i] == '') {
                 testBoard[i] = 'o';
-                game.winCheck(boardArr);
-                game.tieCheck();
+                winCheck(testBoard);
+                tieCheck(testBoard);
 
                 let score = minimax(testBoard, 0, false);
                 testBoard[i] = '';
@@ -332,7 +334,7 @@ const computer = (() => {
                 }
             }
         }
-        
+        console.log(move)
         boardArr[move] = 'o';
         setTimeout(function(){
             if (document.querySelector('#gameEndContainer').style.visibility != "visible") {
