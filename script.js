@@ -3,9 +3,8 @@ let boardArr = [[],[],[],[],[],[],[],[],[]];
 const game = (() => {
     let winState = false;
     let gameMode = "computer";
-    let botDifficulty = "medium";
+    let botDifficulty = "Medium";
     let currentTurn = 'x';
-
 
     const gameModeSelection = () => {
         const selection = document.querySelector('select');
@@ -13,29 +12,25 @@ const game = (() => {
             gameMode = ""
             restart()
             playerTurn();
-        } else if (selection.value == "Easy"){
-            gameMode = "computer";
-            botDifficulty = "easy";
-            restart();
-            playerTurn();
-        } else if (selection.value == "Medium"){
-            gameMode = "computer";
-            botDifficulty = "medium";
-            restart();
-            playerTurn();
-        } else if (selection.value == "Hard"){
-            gameMode = "computer";
-            botDifficulty = "hard";
-            restart();
-            playerTurn();
         } else {
             gameMode = "computer";
-            botDifficulty = "impossible";
+            botDifficulty = selection.value;
             restart();
             playerTurn();
         }
+        console.log(botDifficulty);
     }
+/*
 
+else {
+    gameMode = "computer";
+    botDifficulty = selection.value;
+    restart();
+    playerTurn();
+}
+
+
+*/
     const getGameMode = () => gameMode;
 
     const getCurrentTurn = () => currentTurn;
@@ -46,6 +41,7 @@ const game = (() => {
         playerTurn();
 
         if (gameMode == "computer" && currentTurn == "o" && winState == false) {
+            console.log(botDifficulty);
             computer.difficulty(botDifficulty);
             winCheck(boardArr);
             tieCheck(boardArr)
@@ -279,13 +275,13 @@ const computer = (() => {
 
     const difficulty = (difficulty) => {
         let botDifficulty
-        if (difficulty == "easy") {
+        if (difficulty == "Easy") {
             botDifficulty = Math.floor(Math.random() * 2)
-        } else if (difficulty == "medium") {
+        } else if (difficulty == "Medium") {
             botDifficulty = Math.floor(Math.random() * 3)
-        } else if (difficulty == "hard") {
+        } else if (difficulty == "Hard") {
             botDifficulty = Math.floor(Math.random() * 4)
-        } else if (difficulty == "impossible") {
+        } else if (difficulty == "Impossible") {
             return bestMove();
         } 
         if (botDifficulty == 0 ) {
