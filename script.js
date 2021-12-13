@@ -48,6 +48,7 @@ const game = (() => {
 
         if (gameMode == "computer" && currentTurn == "o" && winState == false) {
             computer.difficulty(botDifficulty);
+            console.log(boardArr)
         } 
     }
 
