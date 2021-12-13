@@ -195,7 +195,7 @@ select:hover {
     color: white;
     margin-top: 50px;
     border-radius: 10px;
-    font-size: 1.8rem;
+    font-size: clamp(1.5rem, 1.8vmax, 2rem);
     border: none;
     height: 55px;
     width: 230px;
@@ -244,7 +244,7 @@ select:hover {
     color: white;
     margin-top: 50px;
     border-radius: 10px;
-    font-size: 1.8rem;
+    font-size: clamp(1.5rem, 1.8vmax, 2rem);
     border: none;
     font-weight: 800;
     height: 50px;
