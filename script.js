@@ -248,6 +248,9 @@ document.addEventListener('click', (e) => {
     if (e.target.classList == 'space' && e.target.innerHTML.length == 0) {
         game.mark(e.target.id[1]);
     }
+    else if (e.target.id == 'restartGameButton') {
+        game.restart();
+    }
 })
 
 const selection = document.querySelector('select');

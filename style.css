@@ -103,8 +103,15 @@ select {
     width: clamp(110px, 10vmax, 25vw);
     border-radius: 5px;
     border: none;
+    outline: none;
     font-size: clamp(0.9rem, 1.5vmax,1.5rem);
     text-align-last: center;
+    transition: all 0.1s ease-in-out;
+}
+
+select:hover {
+    transform: scale(1.02);
+    box-shadow: 1px 1px 14px rgba(0, 0, 0, 0.2); 
 }
 
 #restartGameContainer {
@@ -126,18 +133,17 @@ select {
 }
 
 #restartGameButton:hover {
-    transform: scale(1.01);
+    transform: scale(1.02);
+    box-shadow: 1px 1px 14px rgba(0, 0, 0, 0.3); 
 }
 
 @keyframes bounce {
     50% {
         transform: scale(1.5);
     }
-
     75% {
         transform: scale(0.75);
     }
-
     100% {
         transform: scale(1);
     }
