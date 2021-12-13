@@ -36,9 +36,9 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: clamp(45px, 70%, 50px);
-    width: clamp(170px, 40%, 300px);
-    font-size: clamp(1.7rem, 1.8vmax,2rem);
+    height: clamp(40px, 70%, 50px);
+    width: clamp(155px, 40%, 300px);
+    font-size: clamp(1.6rem, 1.8vmax,2rem);
     font-weight: 800;
     border: none;
     border-radius: 10px;
