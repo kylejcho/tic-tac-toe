@@ -34,7 +34,6 @@ const game = (() => {
             restart();
             playerTurn();
         }
-        console.log(botDifficulty)
     }
 
     const getGameMode = () => gameMode;
