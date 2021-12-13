@@ -100,10 +100,10 @@ select {
     box-shadow: 1px 1px 14px rgba(0, 0, 0, 0.1); 
     padding: 5px;
     margin-top: 1rem;
-    width: 15vw;
+    width: clamp(100px, 15vmax, 25vw);
     border-radius: 5px;
     border: none;
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 1.5vmax,1.5rem);
 }
 
 @keyframes bounce {
