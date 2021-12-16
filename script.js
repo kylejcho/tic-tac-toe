@@ -145,14 +145,14 @@ const display = (() => {
     const tie = () => {
         document.querySelector('#unclickableDiv').style.visibility = "visible";
         let tieEnd = document.querySelector('#tieEndContainer');
-        setTimeout(function(){ tieEnd.style.visibility = "visible"; }, 1500);
+        setTimeout(() => { tieEnd.style.visibility = "visible"; }, 1500);
     }
 
     const gameEndPopup = (winner) => {
         let gameEnd = document.querySelector('#gameEndContainer');
         const gameEndTitle = document.querySelector('#gameEndTitle');
         
-        setTimeout(function(){ 
+        setTimeout(() => { 
             if (winner == "o" && game.gameMode == "computer") {
                 gameEndTitle.innerHTML = "YOU LOSE";
             } else {
@@ -175,10 +175,10 @@ const display = (() => {
         const two = document.querySelector('#s' + b + '');
         const three = document.querySelector('#s' + c + '');
 
-        setTimeout(function(){audio.win(); }, 750);
-        setTimeout(function(){one.classList.add("highlight"); }, 750);
-        setTimeout(function(){two.classList.add("highlight"); }, 850);
-        setTimeout(function(){three.classList.add("highlight"); }, 950);
+        setTimeout(() => {audio.win(); }, 750);
+        setTimeout(() => {one.classList.add("highlight"); }, 750);
+        setTimeout(() => {two.classList.add("highlight"); }, 850);
+        setTimeout(() => {three.classList.add("highlight"); }, 950);
     }
 
     const threeRowClear = () => {
@@ -299,7 +299,7 @@ const computer = (() => {
                 game.winCheck(boardArr);
                 game.tieCheck();
             
-                setTimeout(function(){
+                setTimeout(() => {
                     if (document.querySelector('#gameEndContainer').style.visibility != "visible") {
                         audio.pop();
                     }
@@ -333,7 +333,7 @@ const computer = (() => {
         }
 
         boardArr[move] = 'o';
-        setTimeout(function(){
+        setTimeout(() => {
             if (document.querySelector('#gameEndContainer').style.visibility != "visible") {
                 audio.pop();
             }
