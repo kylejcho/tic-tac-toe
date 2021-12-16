@@ -20,17 +20,7 @@ const game = (() => {
         }
         console.log(botDifficulty);
     }
-/*
 
-else {
-    gameMode = "computer";
-    botDifficulty = selection.value;
-    restart();
-    playerTurn();
-}
-
-
-*/
     const getGameMode = () => gameMode;
 
     const getCurrentTurn = () => currentTurn;
